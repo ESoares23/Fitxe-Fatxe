@@ -23,6 +23,7 @@ Este repositório contém um simples jogo de Tic-Tac-Toe (ou Jogo da Velha) impl
 Ao executar jogue com o seu parceiro e divirta-se 
 
 **Contribuição**
+
 Sinta-se à vontade para contribuir com melhorias para este projeto. Você pode abrir um pull request ou relatar problemas na seção de issues.
 
 **ATENÇÃO:**
