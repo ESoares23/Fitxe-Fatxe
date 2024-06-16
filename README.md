@@ -53,6 +53,7 @@ Também pode verificar o pip, que é o gerenciador de pacotes do Python, digitan
 1. Instale o Homebrew (se ainda não estiver instalado):
 
 Abra o Terminal e digite:
+
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 2. Instale o Python usando o Homebrew:
@@ -70,6 +71,7 @@ No Terminal, digite
 Para verificar a versão do Python. Verifique o pip com 
 
     pip3 --version.
+
 
 
 **Linux (Ubuntu)**
@@ -94,6 +96,8 @@ Para instalar o pip:
 
 Verifique o pip com 
     pip3 --version.
+
+
 
 **2-Redis**
 
