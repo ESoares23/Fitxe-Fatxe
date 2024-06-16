@@ -102,9 +102,12 @@ Verifique o pip com
 **2-Redis**
 
 **-Em Sistemas Unix/Linux (Ubuntu/Debian)**
+
+
 1. Atualize os pacotes do sistema:
 
     sudo apt update
+    
     sudo apt upgrade
 
 2. Instale o Redis:
@@ -129,6 +132,7 @@ Verifique o pip com
 1-Instale o Homebrew (se você não tiver o Homebrew instalado):
 
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 
 2-Instale o Redis usando o Homebrew:
 
