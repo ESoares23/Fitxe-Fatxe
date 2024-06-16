@@ -12,16 +12,16 @@ class TicTacToeClient(tk.Tk):
         self.server_port = server_port
         self.player = None
         self.current_turn = 'X'
-        self.last_winner = 'X'  # Para armazenar o vencedor do último jogo
+        self.last_winner = 'X' 
         self.client_socket = None
         self.buttons = [[None for _ in range(3)] for _ in range(3)]
         self.board = [['' for _ in range(3)] for _ in range(3)]
         self.logged_in = False
-        self.create_register_widgets()
+        self.create_login_widgets()
         
     def create_login_widgets(self):
             self.clear_widgets()
-            self.username_label = tk.Label(self, text="nome:")
+            self.username_label = tk.Label(self, text="Nome:")
             self.username_label.grid(row=0, column=0)
             self.username_entry = tk.Entry(self)
             self.username_entry.grid(row=0, column=1)
@@ -40,7 +40,7 @@ class TicTacToeClient(tk.Tk):
 
     def create_register_widgets(self):
         self.clear_widgets()
-        self.username_label = tk.Label(self, text="nome de Usuario:")
+        self.username_label = tk.Label(self, text="Nome de Usuario:")
         self.username_label.grid(row=0, column=0)
         self.username_entry = tk.Entry(self)
         self.username_entry.grid(row=0, column=1)
@@ -93,40 +93,12 @@ class TicTacToeClient(tk.Tk):
         tk.Label(self.ranking_frame, text="Draws", font="bold").grid(row=1, column=3)
         tk.Label(self.ranking_frame, text="Points", font="bold").grid(row=1, column=4)
 
-   
-    def register(self):
-        username = self.username_entry.get()
-        password = self.password_entry.get()
-
-        if not username or not password:
-            messagebox.showerror("Erro ao registar", "Por faavor insira nome e password! ")
-            return
-
-        try:
-            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.client_socket.connect((self.server_ip, self.server_port))
-            register_data = {'action': 'register', 'username': username, 'password': password}
-            self.client_socket.send((json.dumps(register_data) + "\n").encode('utf-8'))
-            
-            response = self.client_socket.recv(1024).decode('utf-8').strip()
-            response_data = json.loads(response)
-
-            if response_data['status'] == 'success':
-                messagebox.showinfo("Registrado com sucesso", "Por favor faça Login!")
-                self.create_login_widgets()
-            else:
-                messagebox.showerror("Erro de registro", response_data['message'])
-                self.client_socket.close()
-
-        except Exception as e:
-            messagebox.showerror("Connection Error", f"Não foi possivel conectar com o servidor: {e}")
-
     def login(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
 
         if not username or not password:
-            messagebox.showerror("Erro de Login","Por faavor insira o nome e a password! ")
+            messagebox.showerror("Erro de Login","Por favor insira o nome e a password! ")
             return
 
         try:
@@ -150,6 +122,34 @@ class TicTacToeClient(tk.Tk):
         except Exception as e:
             messagebox.showerror("Connection Error", f"Não foi possivel conectar com o servidor: {e}")
 
+    def register(self):
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+
+        if not username or not password:
+            messagebox.showerror("Erro ao registar", "Por favor insira nome e password! ")
+            return
+
+        try:
+            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.client_socket.connect((self.server_ip, self.server_port))
+            register_data = {'action': 'register', 'username': username, 'password': password}
+            self.client_socket.send((json.dumps(register_data) + "\n").encode('utf-8'))
+            
+            response = self.client_socket.recv(1024).decode('utf-8').strip()
+            response_data = json.loads(response)
+
+            if response_data['status'] == 'success':
+                messagebox.showinfo("Registrado com sucesso", "Por favor faça Login!")
+                self.create_login_widgets()
+            else:
+                messagebox.showerror("Erro de registro", response_data['message'])
+                self.client_socket.close()
+
+        except Exception as e:
+            messagebox.showerror("Connection Error", f"Não foi possivel conectar com o servidor: {e}")
+
+    
     def make_move(self, i, j):
         if self.board[i][j] == '' and self.player == self.current_turn:
             move = {
@@ -212,7 +212,6 @@ class TicTacToeClient(tk.Tk):
                 break
 
     def update_ranking(self, ranking):
-        # Atualiza a tabela de ranking com base nos dados recebidos
         self.clear_ranking_table()
         for i, user in enumerate(ranking):
             tk.Label(self.ranking_frame, text=user['username']).grid(row=i+2, column=0)
@@ -262,9 +261,9 @@ class TicTacToeClient(tk.Tk):
 
     def show_winner(self, winner):
         if winner == 'Draw':
-            messagebox.showinfo("Game Over", "It's a draw!")
+            messagebox.showinfo("Game Over", "Empate!")
         else:
-            messagebox.showinfo("Game Over", f"Player {winner} wins!")
+            messagebox.showinfo("Game Over", f"Jogador {winner} venceu!")
             self.last_winner = winner  # Armazenar o vencedor do jogo
         self.reset_board()
 

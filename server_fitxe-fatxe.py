@@ -27,7 +27,7 @@ class TicTacToeServer:
         self.connected_users = {}  # Dicionário para rastrear usuários conectados
         self.game_id = "tictactoe_game"
         self.lock = threading.Lock()
-        self.expiration_time = 120  
+        self.expiration_time = 60  
         self.current_player = 'X'
         threading.Thread(target=self.expire_cache_periodically, daemon=True).start()
 
@@ -72,18 +72,18 @@ class TicTacToeServer:
             self.send_user_info(client_socket)
             self.send_ranking()  # Envia o ranking atualizado
         else:
-            response = {'status': 'error', 'message': 'Invalid username or password.'}
+            response = {'status': 'error', 'message': 'nome ou passoword invalido.'}
             client_socket.send((json.dumps(response) + "\n").encode('utf-8'))
 
     def handle_register(self, data, client_socket):
         username = data['username']
         password = data['password']
         if users_collection.find_one({'username': username}):
-            response = {'status': 'error', 'message': 'Username already exists.'}
+            response = {'status': 'error', 'message': 'este nome ja existe.'}
         else:
             hashed_password = generate_password_hash(password)
             users_collection.insert_one({'username': username, 'password': hashed_password, 'wins': 0, 'points': 0, 'draws': 0})
-            response = {'status': 'success', 'message': 'Registration successful.'}
+            response = {'status': 'success', 'message': 'Registrado com sucesso.'}
         client_socket.send((json.dumps(response) + "\n").encode('utf-8'))
 
    
